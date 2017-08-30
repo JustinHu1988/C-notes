@@ -44,6 +44,17 @@ int main(void){
     printf("You are easily worth that! If platinum prices drop,\n");
     printf("eat more to maintain your value.\n");
     
+    
+    int x = 100;
+    
+    printf("dec= %d; octal = %o, hex = %x\n", x,x,x);
+    printf("dec= %d; octal = %#o, hex = %#x\n", x,x,x);
+    /*
+     this section will print:
+     dec= 100; octal = 144, hex = 64
+     dec= 100; octal = 0144, hex = 0x64
+     */
+    
     return 0;
 }
 
@@ -137,8 +148,96 @@ int main(void){
             - ISO C specifies that the minimum range for type int should be from -32768 to 32767.
             - systems represent signed integers by using the value of a particular bit to indicate the sign.(Chapter 15)
  
-        - Declare an int variable
+        - Declare, Assignment, Initializing
+            - Declare an int variable
+                - example: int erns; int hogs, cows, goats;
+            - Assignment:
+                - example: cows = 112;
+            - Initializing:
+                - example: int hogs = 21;
+                - create and label the storage for the variables and assign starting value.
  
+        - Type int Constants
+            - when you write a number without a decimal point and without an exponent, C recongnizes it as an integer.
+ 
+        - Printing int Values
+            - `%d` notation is called a "format specifier", it indicates the form that `printf()` uses to display a value.
+ 
+        - [・ˍ・*]
+            If you make mistake on `printf()`:
+            - example:
+ 
+                #include <stdio.h>
+                int main(void)
+                {
+                int ten = 10; int two = 2;
+                printf("Doing it wrong: ");
+                printf("%d minus %d is %d\n", ten ); // forgot 2 arguments
+                return 0; 
+                }
+            - This may print:
+                Doing it wrong: 10 minus 16 is 1650287143
+            - Note: the program used ten to provide a value for the first %d and used whatever values happened to be lying around in memory for the next two!
+            - The number you get could be different from those shown here. Not only might the menory contents be different, but different compilers will manage memory locations differently.
+ 
+        - Octal and Hexadecimal
+            - special prefixes indicate which number base you are using.
+            - Hexadecimal: prefix - `0x` or `0X`
+            - Octal: prefix - `0`
+ 
+            - different number systems don't affect how the number is stored.(binary code)
+ 
+        - Displaying Octal and Hexadecimal
+            - %o: for Octal;
+            - %x: for Hexadecimal;
+            
+            - If you want to display the C prefixes: you can use `%#o`, `%#x` and `%#X` to generate the "0", "0x" and "0X" prefixes respectively.
+                - note that the `0` and `0x` prefixes are not displayed in the output unless you include the `#` as part of the specifier.
+ 
+    3.4.2 Other integer Types
+        C offers three adjective keywords to modify the basic integer type:
+            - short
+            - long
+            - unsigned
+ 
+        Normally Range:
+            - short = 16 bits
+            - int = 16 bits or 32bits
+            - long = 32 bits
+            - long long = 64 bits
+        
+        Minimum range for each basic data type (C standard):
+            - short/int:
+                [–32,767 -- 32,767]
+            - unsigned short/unsigned int: 
+                [0 -- 65,535]
+            - long: 
+                [–2,147,483,647 -- 2,147,483,647]
+            - unsigned long: 
+                [0 -- 4,294,967,295]
+            - long long: 
+                [–9,223,372,036,854,775,807 -- 9,223,372,036,854,775,807]
+            - unsigned long long: 
+                [0 -- 18,446,744,073,709,551,615]
+ 
+        When use different int types?
+            - If you are writing code on a machine for which int and long are the same size, and you do need 32-bit integers, you should use long instead of int so that the program will function correctly if transferred to a 16-bit machine.
+            - use long long if you need 64-bit integer values.
+            - saving storage space is important only if your program uses arrays of integers that are large in relation to a system’s available memory, Use short to save storage space.
+            - Another reason to use short is that it may correspond in size to hardware registers used by particular components in a computer.
+ 
+        Integer Overflow:
+            - When it reaches its maximum value, it starts over at the beginning.
+            - Example:
+                int i = 2147483647;
+                unsigned int j = 4294967295;
+                printf("%d, %d, %d\n", i, i+1, i+2);
+                printf("%d, %d, %d\n", j, j+1, j+2);
+            - this will result:
+                2147483647 -2147483648 -2147483647 
+                4294967295 0 1
+ 
+        
  
  */
 
