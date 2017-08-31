@@ -6,8 +6,6 @@
 //  Copyright © 2017 JustinHu. All rights reserved.
 //
 
-#include <stdio.h>
-
 /* -------------------------------
  - Keywords:
     - int, short, long, unsigned, char, float, double, _Bool, _Complex, _Imaginary
@@ -66,11 +64,12 @@ int main(void){
     printf("big = %ld and not %hd\n", big, big);
     printf("verybig = %lld and not %ld\n", verybig, verybig);
     /*
-     this section will print:
+     this section will print:(in 32-bits computer)
      un = 3000000000 and not -1294967296
      end = 200 and 200
      big = 65537 and not 1
-     verybig = 12345678908642 and not 1942899938
+     verybig = 12345678908642 and not 1942899938 
+     - (note: for 64-bits system, this is not the answer)
      */
     
     return 0;
@@ -287,6 +286,53 @@ int main(void){
         - `%llu`: unsigned long long type
  
         - Example: see Code Section 3.4
+        
+    Note: the `int` type is intended to be the integer size that the computer handles most efficiently.
+ 
+ 
+ 3.4.3 Using Characters: Type `char`
+    
+    `char` is an integer type:
+        - `char` type is used for storing characters such as letters and punctuation mark, but technically it is an integer type.
+        - because the `char` type actually stores integers, not characters.
+        - To handle characters, the computer uses a "numerical code" in which certain integers represent certain characters.
+    Numerical code:
+        - ASCII code
+        - Unicode
+        - ...
+ 
+    - The C language defines a byte to be the number of bits used by type `char`, so one can have a system with a 16-bit or 32-bit byte and `char` type.
+ 
+    3.4.3.1 Declaring Type `char` Variables
+        Example:
+            char response;
+            char itable, latan;
+ 
+    3.4.3.2 Character Constants and Initialization
+        
+        - Character Constant
+            - a single character contained between single quotes is a C character constant. Such as 'A', 'B', etc.
+            - for example, when the compiler sees 'A', it converts the 'A' to the proper code value.
+            - Example:
+                char broiled;   // declare a char variable
+                broiled = 'T';  // OK, 'T' is a Character Constant
+                broiled = T;    // no, thinks T is a variable
+                broiled = "T";  // no, thinks "T" is a string
+ 
+            - Because characters are really stored as numeric values, you can also use the numerical code to assign values: 
+                char grade = 65;    // ok for ASCII, but poor style
+ 
+                - In this example, 65 is type int, but, because the value is smaller than the maximum char size, it can be assigned to grade without any problems.
+                - Because 65 is the ASCII code for the letter A, this example assigns the value A to grade.
+                - Note, however, that this example assumes that the system is using ASCII code. 
+                - Using 'A' instead of 65 produces code that works on any system. Therefore, it’s much better to use character constants than numeric code values.
+            
+            [・ˍ・*]
+            - Oddly, C treats character constants as type int rather than type char.
+                - for example, on an ASCII system with a 32-bit int and an 8-bit char, the code:
+                    char grade = 'B';
+                - represents 'B' as the numerical value 66 stored in a 32-bit unit, but grade winds up with 66 stored in an 8-bit unit. This characteristic of character constants makes it possible to define a character constant such as 'FATE', with four separate 8-bit ASCII codes stored in a 32-bit unit. However, attempting to assign such a character constant to a char variable results in only the last 8 bits being used, so the variable gets the value 'E'.
+ 
  
  
  
