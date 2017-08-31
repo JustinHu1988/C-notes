@@ -309,31 +309,68 @@ int main(void){
             char itable, latan;
  
     3.4.3.2 Character Constants and Initialization
-        
-        - Character Constant
-            - a single character contained between single quotes is a C character constant. Such as 'A', 'B', etc.
-            - for example, when the compiler sees 'A', it converts the 'A' to the proper code value.
-            - Example:
-                char broiled;   // declare a char variable
-                broiled = 'T';  // OK, 'T' is a Character Constant
-                broiled = T;    // no, thinks T is a variable
-                broiled = "T";  // no, thinks "T" is a string
+    - Character表示规则:
+        － 如果单独表示字符常量／转义字符，需要加单引号。
+        － 如果在双引号的字符串里添加转义字符，则不需要再加单引号。
  
-            - Because characters are really stored as numeric values, you can also use the numerical code to assign values: 
-                char grade = 65;    // ok for ASCII, but poor style
  
-                - In this example, 65 is type int, but, because the value is smaller than the maximum char size, it can be assigned to grade without any problems.
-                - Because 65 is the ASCII code for the letter A, this example assigns the value A to grade.
-                - Note, however, that this example assumes that the system is using ASCII code. 
-                - Using 'A' instead of 65 produces code that works on any system. Therefore, it’s much better to use character constants than numeric code values.
+        - a single character contained between single quotes is a C character constant. Such as 'A', 'B', etc.
+        - for example, when the compiler sees 'A', it converts the 'A' to the proper code value.
+        - Example:
+            char broiled;   // declare a char variable
+            broiled = 'T';  // OK, 'T' is a Character Constant
+            broiled = T;    // no, thinks T is a variable
+            broiled = "T";  // no, thinks "T" is a string
+            broiled = '\077' // represent a character by its octal ASCII code.
+
+        - Because characters are really stored as numeric values, you can also use the numerical code to assign values:
+            char grade = 65;    // ok for ASCII, but poor style
+ 
+            - In this example, 65 is type int, but, because the value is smaller than the maximum char size, it can be assigned to grade without any problems.
+            - Because 65 is the ASCII code for the letter A, this example assigns the value A to grade.
+            - Note, however, that this example assumes that the system is using ASCII code.
+            - Using 'A' instead of 65 produces code that works on any system. Therefore, it’s much better to use character constants than numeric code values
+ .
             
-            [・ˍ・*]
-            - Oddly, C treats character constants as type int rather than type char.
-                - for example, on an ASCII system with a 32-bit int and an 8-bit char, the code:
-                    char grade = 'B';
-                - represents 'B' as the numerical value 66 stored in a 32-bit unit, but grade winds up with 66 stored in an 8-bit unit. This characteristic of character constants makes it possible to define a character constant such as 'FATE', with four separate 8-bit ASCII codes stored in a 32-bit unit. However, attempting to assign such a character constant to a char variable results in only the last 8 bits being used, so the variable gets the value 'E'.
+        [・ˍ・*]
+        - Oddly, C treats character constants as type int rather than type char.
+            - for example, on an ASCII system with a 32-bit int and an 8-bit char, the code:
+                char grade = 'B';
+            - represents 'B' as the numerical value 66 stored in a 32-bit unit, but grade winds up with 66 stored in an 8-bit unit. This characteristic of character constants makes it possible to define a character constant such as 'FATE', with four separate 8-bit ASCII codes stored in a 32-bit unit. However, attempting to assign such a character constant to a char variable results in only the last 8 bits being used, so the variable gets the value 'E'.
  
+    3.4.3.3 Nonprinting Characters
+        C offers three ways to represent nonprinting characters.
+        
+        - 1. use the ASCII code.
+        - 2. use special symbol sequences --- escape sequences. (See page 73)
+            - when assigned to a character variable, escape sequences must be enclosed in single quotes.
+                char nerf = '\n';  // newline
+            - \a: alert. Using the alert character in a program displayed on a screen should produce a beep without moving the screen cursor.
+            - \b,\f,\n,\r,\t,\v: common output device control characters. They will affect the active position (such as the position of cursor).
+            - \\,\',\": enable you to use `\`, `'`, `"` as character constants.
+            [***]
+            - \0oo: special representations of the ASCII code. To represent a character by its octal ASCII code.
+                - Example: beep = '\007';
+                - You can omit the leading zeros, so '\07' or even '\7' will do.
+        - 3. using a hexadecimal form for character constants.(since C90)
  
+    When you use ASCII code, note the difference between numbers and number characters.
+        - for example, the character 4 is represented by ASCII code value 52.
+ 
+    Q&A:
+        - 1. when should use single quotes for characters(including escape sequences), when shouldn't?
+            When a character, be it an escape sequence or not, is part of a string of characters enclosed in double quotes, don't enclose it in single quotes.
+        - 2. when should I use the ASCII code, and when should I use the escape sequences?
+            If you have a choice between using one of the special escape sequences, say '\f', or an equivalent ASCII code, say '\014', use the '\f', this is more mnemonic, and more portable.
+        - 3. If I need to use numeric code, why use, say, '\032' instead of 032? (both otcal)
+            Using '\032' makes it clear to the code reader that you intend to represent a character code. and, an escape sequence such as \032 can be embedded in part of C string.
+ 
+    3.4.3.4 Printing Characters
+        - %c: The printf() function uses `%c` to indicate that a character should be printed.
+        
+        - Recall that a character variable is stored as a 1-byte integer value. Therefore, if you print the value of a char variable with the usual `%d` specifier, you get an integer.
+        - the `%c` format specifier tells printf() to display the character that has that integer as its code value.
+        - Example 3.5.
  
  
  
