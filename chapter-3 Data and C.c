@@ -55,7 +55,7 @@ int main(void){
     
     
     // Code Section 3.4
-    unsigned int un = 3000000000; /* system with 32-bit int */
+    unsigned un = 3000000000; /* system with 32-bit int */
     short end = 200; /* and 16-bit short */
     long big = 65537;
     long long verybig = 12345678908642;
@@ -71,6 +71,22 @@ int main(void){
      verybig = 12345678908642 and not 1942899938 
      - (note: for 64-bits system, this is not the answer)
      */
+ 
+    
+    // Code secton 3.5
+    char ch;
+    printf("Please enter a character:\n");
+    scanf("%c", &ch);
+    printf("The code for %c is %d.\n", ch, ch);
+    /*
+     Please enter a character:
+     a
+     The code for a is 97.
+     
+     - the ampersand (&) causes the character to be assigned to the variable ch.
+     */
+    
+    
     
     return 0;
 }
@@ -269,7 +285,7 @@ int main(void){
         - `ll`/`LL`: Similarly, you can use an `ll` or `LL` suffix to indicate a long long value.
         - `u`/`U`: unsigned.
  
-    Printing `short`, `long`, `long long` and `unsigned` Types
+    #Printing `short`, `long`, `long long` and `unsigned` Types
         - `%u`: unsigned int
         - `%ld`: long int
         - `%lx`: long integer in hexadecimal format
@@ -369,8 +385,44 @@ int main(void){
         - %c: The printf() function uses `%c` to indicate that a character should be printed.
         
         - Recall that a character variable is stored as a 1-byte integer value. Therefore, if you print the value of a char variable with the usual `%d` specifier, you get an integer.
-        - the `%c` format specifier tells printf() to display the character that has that integer as its code value.
+        - the `%c` format specifier tells `printf()` to display the character that has that integer as its code value.
         - Example 3.5.
+ 
+    3.4.3.5 Signed or Unsigned?
+        Some C implementations make char a signed type. This means a char can hold values typi- cally in the range –128 through 127. Other implementations make char an unsigned type, which provides a range of 0 through 255. Your compiler manual should tell you which type your char is, or you can check the limits.h header file, discussed in the next chapter.
+ 
+        - As of C90, C enabled you to use the keywords signed and unsigned with char. Then, regardless of what your default char is, signed char would be signed, and unsigned char would be unsigned. These versions of char are useful if you’re using the type to handle small integers. For character use, just use the standard char type without modifiers.
+ 
+ 
+ 3.4.4 the `_Bool` Type
+ 
+    In C99, the `_Bool` type is added to represent Boolean values:
+        - `1` for `true`;
+        - `0` for `false`;
+ 
+    The `_Bool` type really is just an integer type, but one that only requires 1 bit of memory.
+    Program use Boolean values to choose which code to execute next.
+ 
+ 
+ 3.4.5 Portable Types: `stdint.h` and `inttypes.h`
+ 
+    - exact-width integer type:
+        int32_t ...
+    - minimum width type:
+        int_least8_t ...
+    - fastst minimum width type:
+        int_fast8_t ...
+        - (int_fast8_t will be defined as an alternative name for the integer type on your system that allows the fastest calculations for 8-bit signed values)
+    - biggest possible integer type on a system:
+        intmax_t;
+            (the largest available signed integer type)
+        uintmax_t;
+            (the largest available unsigned integer type)
+        These types cloud be bigger than `long long` and `unsigned long` because C implementations are permitted to define types beyond the required ones.
+ 
+    C99 and C11 not only provide these new, portable type names, they also provide assistance with input and output.
+        - current standard provides some string macros to be used to display the portable types.(see Chapter 4).
+ 
  
  
  
